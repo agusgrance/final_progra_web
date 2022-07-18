@@ -1,0 +1,19 @@
+<p>users works!</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Rol</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let u of users">
+      <th scope="row">{{ u.Id }}</th>
+      <td>{{ u.name }}</td>
+      <td>{{ u.email }}</td>
+      <td>{{ u.rol }}</td>
+    </tr>
+  </tbody>
+</table>
