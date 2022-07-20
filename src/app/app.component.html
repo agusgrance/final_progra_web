@@ -1,28 +1,68 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
-
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample" aria-controls="navbarsExample" aria-expanded="false" aria-label="Toggle navigation">
-  
-  <span class="navbar-toggler-icon"></span>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarsExample"
+    aria-controls="navbarsExample"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
   </button>
-  
+
   <div class="collapse navbar-collapse" id="navbarsExample">
-  <ul class="navbar-nav mr-auto">
-  <li class="nav-item">
-  <a class="nav-link" *ngIf="loginbtn" routerLink="home" routerLinkActive="active">Home</a>
-  </li>
-  <li class="nav-item">
-  <a class="nav-link" *ngIf="loginbtn" routerLink="login" routerLinkActive="active">Login</a>
-  </li>
-  <li class="nav-item">
-  <button type="button" *ngIf="logoutbtn" class="btn btn-block" (click)="logout()">logout</button>
-  </li>
-  <li class="nav-item">
-  <a class="nav-link" *ngIf="loginbtn" routerLink="registration" routerLinkActive="active">Registration</a>
-  </li>
-  <li class="nav-item">
-  <a class="nav-link" *ngIf="logoutbtn" routerLink="dashboard" routerLinkActive="active">Dashboard</a>
-  </li>
-  </ul>
+    <a class="title" routerLink="dashboard">
+      <h3>Share Meme</h3>
+    </a>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          *ngIf="loginbtn"
+          routerLink="login"
+          routerLinkActive="active"
+          >Login</a
+        >
+      </li>
+      <li class="nav-item">
+        <button
+          type="button"
+          *ngIf="logoutbtn"
+          class="btn btn-block"
+          (click)="logout()"
+        >
+          logout
+        </button>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          *ngIf="loginbtn"
+          routerLink="registration"
+          routerLinkActive="active"
+          >Registration</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          *ngIf="logoutbtn"
+          routerLink="dashboard"
+          routerLinkActive="active"
+          >Dashboard</a
+        >
+      </li>
+      <li>
+        <a
+          class="nav-link"
+          *ngIf="isAdmin"
+          routerLink="user"
+          routerLinkActive="active"
+          >Users</a
+        >
+      </li>
+    </ul>
   </div>
-  </nav>
-  <router-outlet></router-outlet>
+</nav>
+<router-outlet></router-outlet>

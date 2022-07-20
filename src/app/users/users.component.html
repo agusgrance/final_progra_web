@@ -1,19 +1,116 @@
-<p>users works!</p>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Name</th>
-      <th scope="col">Email</th>
-      <th scope="col">Rol</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let u of users">
-      <th scope="row">{{ u.Id }}</th>
-      <td>{{ u.name }}</td>
-      <td>{{ u.email }}</td>
-      <td>{{ u.rol }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="users-background">
+  <div class="users-container">
+    <h3>All Users</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Rol</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of users">
+          <th scope="row">{{ u.id }}</th>
+          <td>{{ u.name }}</td>
+          <td>{{ u.email }}</td>
+          <td>{{ u.rol }}</td>
+          <td>
+            <button type="button" class="btn btn-danger" (click)="delete(u.id)">
+              Delete
+            </button>
+            <!-- Button trigger modal -->
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              (click)="showModal(u.id)"
+            >
+              Editar
+            </button>
+
+            <!-- Modal -->
+            <div
+              [ngClass]="
+                isModalActive && editUser == u.id ? 'showModal' : 'modal fade'
+              "
+              id="exampleModal"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                      Editar User
+                    </h5>
+                  </div>
+                  <form
+                    [formGroup]="angForm"
+                    (ngSubmit)="patchData(angForm, u.id)"
+                    autocomplete="off"
+                  >
+                    <div class="modal-body">
+                      <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input
+                          formControlName="user"
+                          name="user"
+                          type="text"
+                          class="form-control"
+                          id="exampleFormControlInput1"
+                          placeholder="{{ u.name }}"
+                        />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Email </label>
+                        <input
+                          formControlName="email"
+                          type="email"
+                          class="form-control"
+                          id="exampleFormControlInput1"
+                          placeholder="{{ u.email }}"
+                        />
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label"
+                          >Rol</label
+                        >
+                        <select
+                          formControlName="rol"
+                          class="form-control"
+                          aria-label="Default select example"
+                        >
+                          <option *ngFor="let r of roles">
+                            {{ r.rol }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                        (click)="hideModal()"
+                      >
+                        Close
+                      </button>
+                      <button type="submit" class="btn btn-primary">
+                        Save changes
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

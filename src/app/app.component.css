@@ -1,0 +1,18 @@
+
+a.title {
+    color: #ffb016;
+    text-decoration: none;
+}
+nav.navbar {
+    background: black!important;
+    color: white!important;
+    border-radius: 0!important;
+}
+ul.navbar-nav li a {
+    color: white!important;
+}
+div#navbarsExample {
+    display: flex!important;
+    padding: 3px 30px;
+    justify-content: space-between;
+}

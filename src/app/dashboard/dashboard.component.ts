@@ -14,15 +14,24 @@ export class DashboardComponent implements OnInit {
   selectedFiles: any;
   currentFile: any;
   cards: any;
+  roles: any;
   msg: any = 'Subir Imagen';
   angForm: FormGroup;
-
-
+  isAdmin: boolean;
+  isModalActive = false;
+  editCard = 0;
 
   constructor(private DashboardService: DashboardService, private fb: FormBuilder, private dataService: ApiService, private router: Router) {
     this.angForm = this.fb.group({
       comment: ['', Validators.required],
     });
+    let rol = Number(this.dataService.getRol());
+    if (rol == 1) {
+      this.isAdmin = true;
+    }
+    else {
+      this.isAdmin = false;
+    }
   }
 
   selectFile(event: any) {
@@ -45,8 +54,11 @@ export class DashboardComponent implements OnInit {
     });
     this.dataService.memeUpload(angForm1.value.comment, this.currentFile.name, memeDate)
       .pipe(first())
-      .subscribe();
-    this.router.navigate(['dashboard']);
+      .subscribe(() => {
+        this.listarCards();
+      });
+
+
   }
   listarCards() {
     this.dataService.getCards()
@@ -57,10 +69,32 @@ export class DashboardComponent implements OnInit {
         error: (e) => { }
       });
   }
+  patchData(angForm1: any, idCard: number) {
+    console.log(angForm1.value.comment, idCard)
 
+    this.dataService.updateCard(idCard, angForm1.value.comment)
+      .subscribe(() => {
+        this.isModalActive = false;
+        this.listarCards();
+      });
+  }
+  showModal(id: number) {
+    this.editCard = id;
+    this.isModalActive = true;
+  }
+  hideModal() {
+    this.isModalActive = false;
+  }
+  delete(id: any) {
+    this.dataService.deleteMeme(id)
+      .subscribe(() => {
+        this.listarCards();
+      });
+  }
 
   ngOnInit(): void {
 
     this.listarCards();
+
   }
 }

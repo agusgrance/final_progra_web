@@ -1,37 +1,108 @@
-<div style="text-align: center">
-  <h2>Comparte tu Meme</h2>
-  <form [formGroup]="angForm" (ngSubmit)="upload(angForm)" autocomplete="off">
-    <textarea
-      placeholder="Comparte un Meme con la comunidad"
-      rows="20"
-      name="comment"
-      id="comment"
-      cols="40"
-      formControlName="comment"
-      class="ui-autocomplete-input"
-      autocomplete="off"
-      role="textbox"
-      aria-autocomplete="list"
-      aria-haspopup="true"
-    ></textarea>
+<div class="dashboard-background">
+  <div class="post-meme" style="text-align: center">
+    <h2>Comparte tu Meme</h2>
+    <form [formGroup]="angForm" (ngSubmit)="upload(angForm)" autocomplete="off">
+      <textarea
+        placeholder="Comparte un Meme con la comunidad"
+        rows="20"
+        name="comment"
+        id="comment"
+        cols="40"
+        formControlName="comment"
+        class="ui-autocomplete-input"
+        autocomplete="off"
+        role="textbox"
+        aria-autocomplete="list"
+        aria-haspopup="true"
+      ></textarea>
 
-    <div id="ta" contentEditable="true"></div>
+      <div id="ta" contentEditable="true"></div>
 
-    <div [innerHtml]="msg"></div>
-    <label>
-      <input type="file" name="img" (change)="selectFile($event)" />
-    </label>
-    <button [disabled]="!selectedFiles" type="submit">Subir</button>
-  </form>
-</div>
-<div style="text-align: center" class="cards-container">
-  <div class="card" style="width: 18rem" *ngFor="let c of cards">
-    <img src="{{ c.img }}" class="card-img-top" alt="..." />
-    <div class="card-body">
-      <h5 class="card-title">{{ c.user }}</h5>
-      <p class="card-text">
-        {{ c.text }}
-      </p>
+      <div [innerHtml]="msg"></div>
+      <label>
+        <input type="file" name="img" (change)="selectFile($event)" />
+      </label>
+      <button [disabled]="!selectedFiles" type="submit">Subir</button>
+    </form>
+  </div>
+  <div style="text-align: center" class="cards-container">
+    <div class="card" style="width: 18rem" *ngFor="let c of cards">
+      <img src="{{ c.img }}" class="card-img-top" alt="..." />
+      <div class="card-body">
+        <h5 class="card-title">{{ c.user }}</h5>
+        <p class="card-text">
+          {{ c.text }}
+        </p>
+      </div>
+      <button
+        *ngIf="isAdmin"
+        type="button"
+        class="btn btn-danger"
+        (click)="delete(c.id)"
+      >
+        Delete
+      </button>
+      <button
+        *ngIf="isAdmin"
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+        (click)="showModal(c.id)"
+      >
+        Editar
+      </button>
+      <!-- Modal -->
+      <div
+        [ngClass]="
+          isModalActive && editCard == c.id ? 'showModal' : 'modal fade'
+        "
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Editar User</h5>
+            </div>
+            <form
+              [formGroup]="angForm"
+              (ngSubmit)="patchData(angForm, c.id)"
+              autocomplete="off"
+            >
+              <div class="modal-body">
+                <div class="mb-3">
+                  <label class="form-label">Comentario</label>
+                  <textarea
+                    formControlName="comment"
+                    name="comment"
+                    type="text"
+                    class="textarea-edit"
+                    id="exampleFormControlInput1"
+                    placeholder="{{ c.text }}"
+                  >
+                  </textarea>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  (click)="hideModal()"
+                >
+                  Close
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  Save changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
