@@ -14,7 +14,8 @@ export class AppComponent implements OnInit {
 
   constructor(private dataService: ApiService) {
     dataService.getLoggedInName.subscribe(name => this.changeName(name));
-    let rol = Number(this.dataService.getRol());
+    dataService.getLoggedInAdmin.subscribe(admin => this.getAdmin(admin));
+
 
 
     if (this.dataService.isLoggedIn()) {
@@ -31,7 +32,12 @@ export class AppComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    if (Number(this.dataService.getRol()) == 1) {
+    console.log(localStorage.getItem('rol'))
+
+  }
+  private getAdmin(admin: any) {
+
+    if (admin) {
 
       this.isAdmin = true;
     }

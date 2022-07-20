@@ -41,22 +41,25 @@ export class DashboardComponent implements OnInit {
   upload(angForm1: any) {
 
     this.currentFile = this.selectedFiles.item(0);
-    console.log('test')
+
     let memeDate = new Date();
+
 
     this.DashboardService.uploadFile(this.currentFile).subscribe(response => {
       this.selectedFiles.value = '';
+
       if (response instanceof HttpResponse) {
         this.msg = '¡Se ha subido con exito!';
         console.log(response.body);
       }
+      this.dataService.memeUpload(angForm1.value.comment, this.currentFile.name, memeDate)
+        .pipe(first())
+        .subscribe(() => {
+          this.listarCards();
+        });
 
     });
-    this.dataService.memeUpload(angForm1.value.comment, this.currentFile.name, memeDate)
-      .pipe(first())
-      .subscribe(() => {
-        this.listarCards();
-      });
+
 
 
   }

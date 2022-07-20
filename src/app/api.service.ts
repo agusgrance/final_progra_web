@@ -11,7 +11,11 @@ import { Users } from './users';
 export class ApiService {
   redirectUrl: string = '';
   baseUrl: string = "http://localhost/final_progra_web/php";
+  userRol: any;
   @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
+  @Output() getLoggedInAdmin: EventEmitter<any> = new EventEmitter();
+
+
   constructor(private httpClient: HttpClient) { }
   public userlogin(username: string, password: string) {
     alert(username)
@@ -19,7 +23,15 @@ export class ApiService {
       .pipe(map(Users => {
         this.setToken(Users[0].id);
         this.setRol(Users[0].rol);
+        this.userRol = Users[0].rol;
         this.getLoggedInName.emit(true);
+        if (Users[0].rol == 1) {
+          this.getLoggedInAdmin.emit(true);
+        }
+        else {
+          this.getLoggedInAdmin.emit(false);
+        }
+
         return Users;
       }));
   }
@@ -50,6 +62,7 @@ export class ApiService {
   }
   public memeUpload(comment: string, img: any, date: Date) {
     const user = this.getToken();
+
     let imgPath = `../../assets/uploads/${img}`;
     return this.httpClient.post<any>(this.baseUrl + '/memeUpload.php', { user, comment, imgPath, date })
       .pipe(map(Meme => {
