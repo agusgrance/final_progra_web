@@ -31,7 +31,8 @@ export class UsersComponent implements OnInit {
 
 
   patchData(angForm1: any, idUser: number) {
-    let rol = angForm1.value.rol;
+
+    let rol = angForm1.value.rol != '' ? angForm1.value.rol : 1;
     let idRol = this.roles.find((r: any) => r.rol == rol)?.id;
     this.dataService.updateUser(idUser, angForm1.value.user, angForm1.value.email, idRol)
       .subscribe(() => {
@@ -72,7 +73,12 @@ export class UsersComponent implements OnInit {
   hideModal() {
     this.isModalActive = false;
   }
-
+  isCurrentUser(id: any) {
+    if (this.users.find((r: any) => this.dataService.getToken() == id)) {
+      return true;
+    }
+    return false;
+  }
 
   ngOnInit(): void {
     this.listarUsers();

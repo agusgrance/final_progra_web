@@ -70,7 +70,7 @@ export class ApiService {
       }));
   }
 
-  public updateUser(id: number, name: string, email: string, rol: number = 0) {
+  public updateUser(id: number, name: string, email: string, rol: number = 1) {
     return this.httpClient.put(`${this.baseUrl}/updateUser.php`, { id, name, email, rol });
   }
   public updateCard(id: number, comment: any) {

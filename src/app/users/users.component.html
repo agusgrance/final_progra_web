@@ -18,7 +18,12 @@
           <td>{{ u.email }}</td>
           <td>{{ u.rol }}</td>
           <td>
-            <button type="button" class="btn btn-danger" (click)="delete(u.id)">
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="delete(u.id)"
+              [disabled]="isCurrentUser(u.id)"
+            >
               Delete
             </button>
             <!-- Button trigger modal -->
