@@ -52,14 +52,14 @@ export class DashboardComponent implements OnInit {
         this.msg = '¡Se ha subido con exito!';
         console.log(response.body);
       }
-      this.dataService.memeUpload(angForm1.value.comment, this.currentFile.name, memeDate)
-        .pipe(first())
-        .subscribe(() => {
-          this.listarCards();
-        });
+
 
     });
-
+    this.dataService.memeUpload(angForm1.value.comment, this.currentFile.name, memeDate)
+      .pipe(first())
+      .subscribe(() => {
+        this.listarCards();
+      });
 
 
   }
