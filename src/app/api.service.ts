@@ -2,6 +2,7 @@ import { Injectable, Output, EventEmitter } from '@angular/core';
 import { map } from 'rxjs/operators';;
 import { HttpClient } from '@angular/common/http';
 import { Users } from './users';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -35,6 +36,36 @@ export class ApiService {
         return Users;
       }));
   }
+  public getBooks() {
+
+    return this.httpClient.get<any>(`https://api.nytimes.com/svc/books/v3/lists/full-overview.json?api-key=${environment.nyctimes_api_key}`).pipe(map((books) => {
+      return books;
+    }));
+  }
+  public getBooksByList(list: string) {
+
+    return this.httpClient.get<any>(`https://api.nytimes.com/svc/books/v3/lists.json?list=${list}&api-key=${environment.nyctimes_api_key}`).pipe(map((books) => {
+      return books;
+    }));
+  }
+  public getBooksByISBN(isbn: string) {
+
+    return this.httpClient.get<any>(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`).pipe(map((books) => {
+      return books;
+    }));
+  }
+  public getReviewsByISBN(isbn: string) {
+
+    return this.httpClient.get<any>(`https://api.nytimes.com/svc/books/v3/reviews.json?isbn=${isbn}&api-key=${environment.nyctimes_api_key}`).pipe(map((reviews) => {
+      return reviews;
+    }));
+  }
+  public getBestsellers() {
+
+    return this.httpClient.get<any>(`https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json?api-key=${environment.nyctimes_api_key}`).pipe(map((books) => {
+      return books;
+    }));
+  }
   public getUsers() {
     return this.httpClient.get<any>(this.baseUrl + '/selectUsers.php')
       .pipe(map((Users) => {
@@ -42,29 +73,71 @@ export class ApiService {
       }));
   }
   public getCards() {
-    return this.httpClient.get<any>(this.baseUrl + '/selectMemes.php')
-      .pipe(map((Memes) => {
-        return Memes;
+    return this.httpClient.get<any>(this.baseUrl + '/selectPosteos.php')
+      .pipe(map((posteos) => {
+        return posteos;
       }));
   }
+
   public getRoles() {
     return this.httpClient.get<any>(this.baseUrl + '/selectRoles.php')
       .pipe(map((roles) => {
         return roles;
       }));
   }
+  public getLikes() {
+    return this.httpClient.get<any>(this.baseUrl + '/selectLikes.php')
+      .pipe(map((roles) => {
+        return roles;
+      }));
+  }
+  public getComentarios() {
+    return this.httpClient.get<any>(this.baseUrl + '/selectComentarios.php')
+      .pipe(map((comment) => {
+        return comment;
+      }));
+  }
 
-  public userregistration(name: string, email: string, pwd: string) {
-    return this.httpClient.post<any>(this.baseUrl + '/register.php', { name, email, pwd })
+  public userregistration(name: string, email: string, pwd: string, admin: number) {
+    return this.httpClient.post<any>(this.baseUrl + '/register.php', { name, email, pwd, admin })
       .pipe(map(Users => {
         return Users;
       }));
   }
-  public memeUpload(comment: string, img: any, date: Date) {
+  public addLike(posteo: string) {
+    const user = this.getToken();
+    return this.httpClient.post<any>(this.baseUrl + '/likes.php', { user, posteo })
+      .pipe(map(Users => {
+        return Users;
+      }));
+  }
+  public addComentario(posteo: string, texto: string) {
+    const user = this.getToken();
+    return this.httpClient.post<any>(this.baseUrl + '/comentarios.php', { posteo, user, texto })
+      .pipe(map(Users => {
+        return Users;
+      }));
+  }
+  public removeLike(id: number) {
+
+    return this.httpClient.post<any>(this.baseUrl + '/removeLike.php', { id })
+      .pipe(map(like => {
+        return like;
+      }));
+  }
+  public removeComentario(id: number) {
+
+    return this.httpClient.post<any>(this.baseUrl + '/deleteComentario.php', { id })
+      .pipe(map(comment => {
+        return comment;
+      }));
+  }
+
+  public memeUpload(comment: string, img: any, date: Date, isbn: string, rating: number) {
     const user = this.getToken();
 
     let imgPath = `../../assets/uploads/${img}`;
-    return this.httpClient.post<any>(this.baseUrl + '/memeUpload.php', { user, comment, imgPath, date })
+    return this.httpClient.post<any>(this.baseUrl + '/memeUpload.php', { user, comment, imgPath, date, isbn, rating })
       .pipe(map(Meme => {
         return Meme;
       }));
@@ -87,7 +160,6 @@ export class ApiService {
     return this.httpClient.put(`${this.baseUrl}/updateUser.php`, { id, name, email, rol });
   }
   public updateCard(id: number, comment: any) {
-    console.log('services', id, comment)
     return this.httpClient.put(`${this.baseUrl}/updateCard.php`, { id, comment });
   }
 
@@ -99,7 +171,7 @@ export class ApiService {
   setRol(token: string) {
     localStorage.setItem('rol', token);
   }
-  getToken() {
+  public getToken() {
     return localStorage.getItem('token');
   }
   getRol() {

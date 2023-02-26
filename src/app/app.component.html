@@ -13,7 +13,7 @@
 
   <div class="collapse navbar-collapse" id="navbarsExample">
     <a class="title" routerLink="dashboard">
-      <h3>MemeBook</h3>
+      <h3>BookShelf</h3>
     </a>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
@@ -51,6 +51,15 @@
           routerLink="dashboard"
           routerLinkActive="active"
           >Dashboard</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          *ngIf="logoutbtn"
+          routerLink="books"
+          routerLinkActive="active"
+          >Books</a
         >
       </li>
       <li>

@@ -1,0 +1,42 @@
+<div class="books-container">
+  <div class="search-container">
+    <h6>Busca un libro</h6>
+    <input />
+  </div>
+  <div *ngFor="let b of books">
+    <h4 class="category-title">{{ b.display_name }}</h4>
+    <div class="feed-container" id="scrollable" (wheel)="onWheel($event)">
+      <div class="card-rows" *ngFor="let bl of b.books">
+        <div class="book-card">
+          <img src="{{ bl.book_image }}" class="card-img-top" alt="..." />
+
+          <h4>{{ b.title }}</h4>
+          <h5>{{ bl.author }}</h5>
+          <p>{{ bl.description }}</p>
+          <button
+            class="btn btn-success"
+            (click)="redirectToBook(bl.primary_isbn10)"
+          >
+            ver mas
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function () {
+    var scrollHandler = null;
+
+    function autoScroll() {
+      clearInterval(scrollHandler);
+      scrollHandler = setInterval(function () {
+        var nextScroll = $(".feed-container").scrollLeft() + 20;
+        $(".feed-container").scrollLeft(nextScroll);
+      }, 500);
+    }
+
+    autoScroll();
+  });
+</script>

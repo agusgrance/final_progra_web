@@ -1,0 +1,41 @@
+.search-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 0;
+    width: 100%;
+    background-image: url('../../assets/search-background.jpg');
+    color: white;
+}
+.book-card{
+    display: inline-grid;
+    color: white;
+border: 1px solid black;
+margin-right: 1rem;
+width: 10vw;
+background: #456;
+padding: 5px;
+text-align: center;
+height: 100%;
+
+}
+.feed-container{
+    display: flex;
+    overflow-x: scroll;
+    color: white;
+
+}
+.category-title{
+    border-bottom: 1px solid #456;
+    color: #9ab;
+    font-family: Graphik-Regular-Web,sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: .075em;
+    margin-bottom: 0.76923077rem;
+    margin-top: 12px;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+}
+

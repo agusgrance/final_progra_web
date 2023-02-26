@@ -1,38 +1,117 @@
 <div class="dashboard-background">
-  <div class="post-meme" style="text-align: center">
-    <h2>Comparte tu Meme</h2>
+  <div class="post-meme" style="text-align: center;">
+    <h2>Comparte tu opinion</h2>
     <form [formGroup]="angForm" (ngSubmit)="upload(angForm)" autocomplete="off">
-      <textarea
-        placeholder="Comparte un Meme con la comunidad"
-        rows="20"
-        name="comment"
-        id="comment"
-        cols="40"
-        formControlName="comment"
-        class="ui-autocomplete-input"
-        autocomplete="off"
-        role="textbox"
-        aria-autocomplete="list"
-        aria-haspopup="true"
-      ></textarea>
+      <label> Categoria</label>
+      <select
+        (change)="onChangeCategory($event)"
+        class="form-select"
+        aria-label="Default select example"
+      >
+        <option *ngFor="let b of books" value="{{ b?.list_name_encoded }}">{{
+          b?.display_name
+        }}</option>
+      </select>
+      <label> Libro</label>
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        formControlName="isbn"
+        [id]="'isbn'"
+      >
+        <option *ngFor="let b of booksList" [ngValue]="(b?.isbns)[0].isbn10">{{
+          (b?.book_details)[0]?.title
+        }}</option>
+      </select>
+      <div class="star-rating">
+        <ngx-star-rating
+          formControlName="rating"
+          [id]="'rating'"
+        ></ngx-star-rating>
+      </div>
+      <div class="textarea">
+        <textarea
+          placeholder="Comparte tu opinion con la comunidad"
+          rows="20"
+          name="comment"
+          id="comment"
+          formControlName="comment"
+          class="ui-autocomplete-input"
+          autocomplete="off"
+          role="textbox"
+          aria-autocomplete="list"
+          aria-haspopup="true"
+        ></textarea>
+      </div>
 
-      <div id="ta" contentEditable="true"></div>
+      <input
+        type="file"
+        class="file-input"
+        name="img"
+        (change)="selectFile($event)"
+        #fileUpload
+      />
+      <div class="file-upload">
+        {{ selectedFiles?.name }}
 
-      <div [innerHtml]="msg"></div>
-      <label>
-        <input type="file" name="img" (change)="selectFile($event)" />
-      </label>
-      <button [disabled]="!selectedFiles" type="submit">Subir</button>
+        <button
+          mat-mini-fab
+          color="primary"
+          class="upload-btn"
+          (click)="fileUpload.click()"
+        >
+          <i class="fa-solid fa-image"></i>
+        </button>
+        <button [disabled]="!isSubmit(angForm, selectedFiles)" type="submit">
+          Subir
+        </button>
+      </div>
     </form>
   </div>
-  <div style="text-align: center" class="cards-container">
-    <div class="card" style="width: 18rem" *ngFor="let c of cards">
-      <img src="{{ c.img }}" class="card-img-top" alt="..." />
+  <div style="text-align: center;" class="cards-container">
+    <div
+      class="card"
+      style="width: 18rem; height: fit-content;"
+      *ngFor="let c of cards"
+    >
       <div class="card-body">
         <h5 class="card-title">{{ c.user }}</h5>
+        <h6>Rating: {{ c.rating }}/5</h6>
+
         <p class="card-text">
           {{ c.text }}
         </p>
+        <img src="{{ c.img }}" class="card-img-top" alt="..." />
+      </div>
+      <div class="card-actions">
+        <div class="left">
+          <div class="likes">
+            <button *ngIf="!hasLike(c.id)" (click)="addLike(c.id)">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+            <button *ngIf="hasLike(c.id)" (click)="removeLike(c.id)">
+              <i class="fa-solid fa-heart"></i>
+            </button>
+
+            <p>{{ likesLength(c.id) }}</p>
+          </div>
+          <div class="comments">
+            <button (click)="showCommentModal(c.id)">
+              <i class="fa-regular fa-comment"></i>
+            </button>
+            <p>{{ comentariosLength(c.id) }}</p>
+          </div>
+        </div>
+        <div class="right">
+          <i class="fa-solid fa-share"></i>
+          <button
+            type="button"
+            *ngIf="c.user_id === userId"
+            (click)="delete(c.id)"
+          >
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
       </div>
       <button
         *ngIf="isAdmin"
@@ -103,6 +182,79 @@
           </div>
         </div>
       </div>
+      <!-- End Modal -->
+      <!-- Modal -->
+      <div
+        [ngClass]="
+          isComentModalActive && postId == c.id
+            ? 'showModal commentContainer'
+            : 'modal fade'
+        "
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Comentarios</h5>
+            </div>
+            <form
+              [formGroup]="angForm"
+              (ngSubmit)="patchCommentData(c.id, angForm)"
+              autocomplete="off"
+            >
+              <div class="modal-body">
+                <div class="mb-3">
+                  <label class="form-label">Comentarios</label>
+                  <div *ngFor="let c of getPostComments(c.id)">
+                    <div>
+                      <strong>{{ c.name }}</strong
+                      >: {{ c.texto }}
+                      <button
+                        type="button"
+                        *ngIf="c.user_id === userId"
+                        (click)="removeComentario(c.id)"
+                      >
+                        <i class="fa-solid fa-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <textarea
+                    formControlName="comment"
+                    name="comment"
+                    type="text"
+                    class="textarea-edit"
+                    id="exampleFormControlInput1"
+                    placeholder="Escribe un comentario..."
+                    [(ngModel)]="defaultValue"
+                  >
+                  </textarea>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  (click)="hideCommentModal()"
+                >
+                  Close
+                </button>
+                <button
+                  [disabled]="!defaultValue.length"
+                  type="submit"
+                  class="btn btn-primary"
+                >
+                  Post
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- End Modal -->
     </div>
   </div>
 </div>

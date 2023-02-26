@@ -1,1 +1,6 @@
 @import url('../node_modules/bootstrap/dist/css/bootstrap.min.css');
+
+body{
+    background-color: #14181c;
+    /* overflow: hidden; */
+}

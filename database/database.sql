@@ -27,10 +27,10 @@ USE `final_progra_web`;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `memes`
+-- Estructura de tabla para la tabla `posteos`
 --
 
-CREATE TABLE `memes` (
+CREATE TABLE `posteos` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `text` varchar(250) NOT NULL,
@@ -39,10 +39,10 @@ CREATE TABLE `memes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Volcado de datos para la tabla `memes`
+-- Volcado de datos para la tabla `posteos`
 --
 
-INSERT INTO `memes` (`id`, `user_id`, `text`, `img`, `date`) VALUES
+INSERT INTO `posteos` (`id`, `user_id`, `text`, `img`, `date`) VALUES
 (36, 16, 'tremendo meme', '../../assets/uploads/test.jpg', '2022-07-20'),
 (37, 17, 'wey yaaaa', '../../assets/uploads/descarga.jpg', '2022-07-20'),
 (38, 15, 'JAAAAA', '../../assets/uploads/test.webp', '2022-07-20'),
@@ -95,9 +95,9 @@ INSERT INTO `users` (`id`, `name`, `password`, `email`, `rol`) VALUES
 --
 
 --
--- Indices de la tabla `memes`
+-- Indices de la tabla `posteos`
 --
-ALTER TABLE `memes`
+ALTER TABLE `posteos`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -117,9 +117,9 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT de la tabla `memes`
+-- AUTO_INCREMENT de la tabla `posteos`
 --
-ALTER TABLE `memes`
+ALTER TABLE `posteos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --

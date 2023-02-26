@@ -30,7 +30,17 @@
                 autocomplete="off"
                 class="form-control input-sm"
                 placeholder="Email"
+                [class.is-invalid]="
+                  angForm.get('email')?.invalid && angForm.get('email')?.touched
+                "
+                required
               />
+
+              <div *ngIf="(email?.invalid && email?.touched) || email?.dirty">
+                <small *ngIf="email?.errors" class="text-danger"
+                  >Please provide a valid email address</small
+                >
+              </div>
             </div>
             <div class="form-group">
               <label for="Password">Password</label>
@@ -43,7 +53,28 @@
                 placeholder="Password"
               />
             </div>
-            <button type="submit" class="btn btn-success">Register</button>
+            <div class="form-group">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  formControlName="admin"
+                  type="checkbox"
+                  value="admin"
+                  name="admin"
+                  id="flexCheckDefault"
+                />
+                <label class="form-check-label" for="flexCheckDefault">
+                  is Admin?
+                </label>
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-success"
+              [disabled]="email?.invalid || !name?.value || !password?.value"
+            >
+              Register
+            </button>
           </form>
         </div>
       </div>

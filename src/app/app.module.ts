@@ -9,6 +9,9 @@ import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UsersComponent } from './users/users.component';
+import { BooksComponent } from './books/books.component';
+import { DetailComponent } from './detail/detail.component';
+import { NgxStarRatingModule } from 'ngx-star-rating';
 
 @NgModule({
   declarations: [
@@ -16,14 +19,17 @@ import { UsersComponent } from './users/users.component';
     LoginComponent,
     RegisterComponent,
     DashboardComponent,
-    UsersComponent
+    UsersComponent,
+    BooksComponent,
+    DetailComponent,
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxStarRatingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

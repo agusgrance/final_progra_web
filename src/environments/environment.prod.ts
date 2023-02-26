@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  nyctimes_api_key: 'seERz0VtNAypDI4cU0cp72oZjgyOJPve',
 };
