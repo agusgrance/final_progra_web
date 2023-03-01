@@ -20,6 +20,8 @@ export class DashboardComponent implements OnInit {
   users: any;
   msg: any = 'Subir Imagen';
   angForm: FormGroup;
+  angForm2: FormGroup;
+
   isAdmin: boolean;
   isModalActive = false;
   isComentModalActive = false;
@@ -39,6 +41,10 @@ export class DashboardComponent implements OnInit {
       comment: ['', Validators.required],
       rating: ['', Validators.required],
       isbn: ['', Validators.required],
+
+    });
+    this.angForm2 = this.fb.group({
+      comment: ['', Validators.required],
 
     });
     let rol = Number(this.dataService.getRol());

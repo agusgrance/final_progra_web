@@ -64,10 +64,10 @@ export class DetailComponent implements OnInit {
   getBookDetail() {
     this.dataService.getBooksByISBN(this.isbn).subscribe({
       next: (response) => {
-        console.log(response.items[0]);
         this.book = response.items[0];
+        let avgRating = response.items[0]?.volumeInfo.averageRating
         this.formRating.setValue({
-          publicrating: response.items[0]?.volumeInfo.averageRating,
+          publicrating: Math.floor(avgRating),
         });
       },
       error: (e) => { },
