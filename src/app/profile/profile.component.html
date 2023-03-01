@@ -1,74 +1,119 @@
-<div class="dashboard-background">
-  <div class="post-meme" style="text-align: center;">
-    <h2>Comparte tu opinion</h2>
-    <form [formGroup]="angForm" (ngSubmit)="upload(angForm)" autocomplete="off">
-      <label> Categoria</label>
-      <select
-        (change)="onChangeCategory($event)"
-        class="form-select"
-        aria-label="Default select example"
-      >
-        <option *ngFor="let b of books" value="{{ b?.list_name_encoded }}">{{
-          b?.display_name
-        }}</option>
-      </select>
-      <label> Libro</label>
-      <select
-        class="form-select"
-        aria-label="Default select example"
-        formControlName="isbn"
-        [id]="'isbn'"
-      >
-        <option *ngFor="let b of booksList" [ngValue]="(b?.isbns)[0].isbn10">{{
-          (b?.book_details)[0]?.title
-        }}</option>
-      </select>
-      <div class="star-rating">
-        <ngx-star-rating
-          formControlName="rating"
-          [id]="'rating'"
-        ></ngx-star-rating>
-      </div>
-      <div class="textarea">
-        <textarea
-          placeholder="Comparte tu opinion con la comunidad"
-          rows="20"
-          name="comment"
-          id="comment"
-          formControlName="comment"
-          class="ui-autocomplete-input"
+<!-- Profile -->
+<div class="profile card">
+  <img [src]="userData?.avatar" alt="User Image" />
+  <div class="userData"></div>
+  <h1>{{ userData?.name }}</h1>
+
+  <p>{{ userData?.email }}</p>
+  <button
+    *ngIf="isCurrentProfile"
+    class="edit-profile"
+    (click)="showEditProfile()"
+  >
+    Editar Perfil<i class="fa-solid fa-user-pen"></i>
+  </button>
+  <a
+    type="button"
+    href="chat/{{ userData.id }}"
+    *ngIf="!isCurrentProfile"
+    class="btn btn-success"
+  >
+    enviar mensaje <i class="fa-solid fa-user-pen"></i>
+  </a>
+</div>
+
+<!-- Profile -->
+<!--edit Form  -->
+<div class="form-container card" *ngIf="isCurrentProfile && editProfile">
+  <h2 class="text-center">Update Profile</h2>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 col-md-offset-3">
+      <div class="jumbotron">
+        <form
+          [formGroup]="angForm"
+          (ngSubmit)="postdata(angForm)"
           autocomplete="off"
-          role="textbox"
-          aria-autocomplete="list"
-          aria-haspopup="true"
-        ></textarea>
-      </div>
-
-      <input
-        type="file"
-        class="file-input"
-        name="img"
-        (change)="selectFile($event)"
-        #fileUpload
-      />
-      <div class="file-upload">
-        {{ selectedFiles?.name }}
-
-        <button
-          mat-mini-fab
-          color="primary"
-          class="upload-btn"
-          (click)="fileUpload.click()"
         >
-          <i class="fa-solid fa-image"></i>
-        </button>
-        <button [disabled]="!isSubmit(angForm, selectedFiles)" type="submit">
-          Subir
-        </button>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input
+              type="text"
+              name="name"
+              formControlName="name"
+              autocomplete="off"
+              class="form-control input-sm"
+              placeholder="Name"
+              value="{{ userData?.name }}"
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              formControlName="email"
+              autocomplete="off"
+              class="form-control input-sm"
+              placeholder="Email"
+              [class.is-invalid]="
+                angForm.get('email')?.invalid && angForm.get('email')?.touched
+              "
+              value="{{ userData?.email }}"
+              required
+            />
+
+            <div *ngIf="(email?.invalid && email?.touched) || email?.dirty">
+              <small *ngIf="email?.errors" class="text-danger"
+                >Please provide a valid email address</small
+              >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="Password">Password</label>
+            <input
+              type="password"
+              name="Password"
+              formControlName="password"
+              autocomplete="off"
+              class="form-control input-sm"
+              placeholder="Password"
+            />
+          </div>
+          <div class="form-group">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                formControlName="admin"
+                type="checkbox"
+                value="admin"
+                name="admin"
+                id="flexCheckDefault"
+                [checked]="userData?.rol == 1"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                is Admin?
+              </label>
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="email?.invalid || !name?.value || !password?.value"
+          >
+            Update
+          </button>
+        </form>
       </div>
-    </form>
+    </div>
+    <div class="col-md-3"></div>
   </div>
-  <div style="text-align: center;" class="cards-container">
+</div>
+
+<!-- Actividad -->
+<div class="book-reviews">
+  <h6>Ultima Actividad</h6>
+  <div class="cards-container">
     <div
       class="card"
       style="width: 18rem; height: fit-content;"
@@ -79,6 +124,7 @@
           <img class="card-avatar" [src]="c?.avatar" alt="User Image" />
           <h5 class="card-title">{{ c.user }}</h5>
         </a>
+        <h5 class="card-title">{{ c.user }}</h5>
         <h6>Rating: {{ c.rating }}/5</h6>
 
         <p class="card-text">
@@ -107,13 +153,6 @@
         </div>
         <div class="right">
           <i class="fa-solid fa-share"></i>
-          <button
-            type="button"
-            *ngIf="c.user_id === userId"
-            (click)="delete(c.id)"
-          >
-            <i class="fa-solid fa-trash"></i>
-          </button>
         </div>
       </div>
       <button

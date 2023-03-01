@@ -1,0 +1,67 @@
+.container-fluid{
+  overflow: hidden;
+}
+.sidebar {
+    background-color: #f8f9fabc;
+    padding: 20px;
+    height: 100vh;
+  }
+  
+  .chat {
+    padding: 20px;
+    height: 100vh;
+    background-color: white;
+  }
+  .chat-container{
+    height: 80%;
+    overflow-y: scroll;
+  }
+  
+  .chat-messages {
+    max-height: calc(100vh - 170px);
+    overflow: hidden;
+  }
+  .chat-input form {
+    display: flex;
+}
+  
+  .bubble-message {
+    margin-top: 12px;
+    background-color: #d4d4d4;
+    border-radius: 15px;
+    max-width: 300px;
+    padding: 10px 15px;
+    position: relative;
+    text-align: center;
+  }
+  
+  .message-user {
+    font-weight: bold;
+  }
+  
+  .chat-input {
+    margin-top: 20px;
+  }
+  .left{
+    text-align: left;
+    float: left;
+  }
+  .right{
+    text-align: right;
+    float: right;
+    background-color: green;
+  }
+  .user{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+   margin-bottom: 12px;
+   color: black;
+   text-decoration: none;
+  
+  }
+  
+  .user img{
+   width: 30px;
+   border-radius: 50%;
+  }

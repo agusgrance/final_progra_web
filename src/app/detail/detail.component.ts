@@ -93,7 +93,6 @@ export class DetailComponent implements OnInit {
     this.dataService.getCards().subscribe({
       next: (response) => {
         this.cards = response.filter((res: any) => res.isbn == this.isbn);
-        console.log('aca cards', this.cards)
         this.myComment = response?.find((res: any) => res.user_id == this.userId && res.isbn == this.isbn)
         this.form.setValue({
           rating: this.myComment?.rating,

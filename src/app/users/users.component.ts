@@ -11,7 +11,7 @@ import { first } from 'rxjs/operators';
 })
 export class UsersComponent implements OnInit {
   users: Users[] = [{
-    id: 1, name: 'Pablo', pwd: 'sadas', email: 'asdasd@sadas.com', rol: 'Admin'
+    id: 1, name: 'Pablo', pwd: 'sadas', email: 'asdasd@sadas.com', rol: 'Admin', avatar: ''
   }]
 
   isModalActive = false;

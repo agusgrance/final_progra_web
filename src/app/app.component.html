@@ -25,16 +25,7 @@
           >Login</a
         >
       </li>
-      <li class="nav-item">
-        <button
-          type="button"
-          *ngIf="logoutbtn"
-          class="btn btn-block"
-          (click)="logout()"
-        >
-          logout
-        </button>
-      </li>
+
       <li class="nav-item">
         <a
           class="nav-link"
@@ -62,6 +53,15 @@
           >Books</a
         >
       </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          *ngIf="logoutbtn"
+          routerLink="chat"
+          routerLinkActive="active"
+          ><i class="fa-solid fa-comment"></i
+        ></a>
+      </li>
       <li>
         <a
           class="nav-link"
@@ -70,6 +70,27 @@
           routerLinkActive="active"
           >Users</a
         >
+      </li>
+      <li class="nav-item">
+        <a
+          type="button"
+          *ngIf="logoutbtn"
+          class="btn btn-block"
+          href="/profile/{{ myToken }}"
+        >
+          <i class="fa-solid fa-user"></i> Mi Perfil
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <button
+          type="button"
+          *ngIf="logoutbtn"
+          class="btn btn-block"
+          (click)="logout()"
+        >
+          <i class="fa-solid fa-right-from-bracket logout"></i>
+        </button>
       </li>
     </ul>
   </div>

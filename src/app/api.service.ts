@@ -78,11 +78,29 @@ export class ApiService {
         return posteos;
       }));
   }
+  public getCardsParams(id: number) {
+    return this.httpClient.put<any>(this.baseUrl + '/selectPosteosParams.php', { id })
+      .pipe(map((posteos) => {
+        return posteos;
+      }));
+  }
+  public getChat(sender: number, receiver: number) {
+    return this.httpClient.put<any>(this.baseUrl + '/selectChat.php', { sender, receiver })
+      .pipe(map((posteos) => {
+        return posteos;
+      }));
+  }
 
   public getRoles() {
     return this.httpClient.get<any>(this.baseUrl + '/selectRoles.php')
       .pipe(map((roles) => {
         return roles;
+      }));
+  }
+  public getProfile(id: number) {
+    return this.httpClient.put<any>(this.baseUrl + '/selectProfile.php', { id })
+      .pipe(map((profile) => {
+        return profile;
       }));
   }
   public getLikes() {
@@ -99,7 +117,8 @@ export class ApiService {
   }
 
   public userregistration(name: string, email: string, pwd: string, admin: number) {
-    return this.httpClient.post<any>(this.baseUrl + '/register.php', { name, email, pwd, admin })
+    const img = "https://avatars.dicebear.com/api/initials/" + name.substring(0, 2) + ".svg";
+    return this.httpClient.post<any>(this.baseUrl + '/register.php', { name, email, pwd, admin, img })
       .pipe(map(Users => {
         return Users;
       }));
@@ -116,6 +135,13 @@ export class ApiService {
     return this.httpClient.post<any>(this.baseUrl + '/comentarios.php', { posteo, user, texto })
       .pipe(map(Users => {
         return Users;
+      }));
+  }
+  public addMessage(sender: number, receiver: number, message: string) {
+    console.log(sender, receiver, message)
+    return this.httpClient.post<any>(this.baseUrl + '/chat.php', { sender, receiver, message })
+      .pipe(map(chat => {
+        return chat;
       }));
   }
   public removeLike(id: number) {

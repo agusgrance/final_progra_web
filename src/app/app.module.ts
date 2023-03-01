@@ -12,6 +12,8 @@ import { UsersComponent } from './users/users.component';
 import { BooksComponent } from './books/books.component';
 import { DetailComponent } from './detail/detail.component';
 import { NgxStarRatingModule } from 'ngx-star-rating';
+import { ProfileComponent } from './profile/profile.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,8 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
     UsersComponent,
     BooksComponent,
     DetailComponent,
+    ProfileComponent,
+    ChatComponent,
   ],
   imports: [
     AppRoutingModule,

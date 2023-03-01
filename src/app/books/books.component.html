@@ -1,7 +1,11 @@
 <div class="books-container">
   <div class="search-container">
     <h6>Busca un libro</h6>
-    <input />
+    <!-- <input placeholder="Escribe su busqueda aqui ..." /> -->
+    <div class="search">
+      <input type="text" placeholder="Search..." (change)="onSearch($event)" />
+      <span class="fa fa-search"></span>
+    </div>
   </div>
   <div *ngFor="let b of books">
     <h4 class="category-title">{{ b.display_name }}</h4>

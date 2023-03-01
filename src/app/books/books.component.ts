@@ -5,21 +5,27 @@ import { ApiService } from '../api.service';
 @Component({
   selector: 'app-books',
   templateUrl: './books.component.html',
-  styleUrls: ['./books.component.css']
+  styleUrls: ['./books.component.css'],
 })
 export class BooksComponent implements OnInit {
-  books: any = []
+  books: any = [];
   constructor(private dataService: ApiService, private router: Router) { }
 
   getBooks() {
-    this.dataService.getBooks()
-      .subscribe({
-        next: (response) => {
-          this.books = response.results.lists;
-          console.log(this.books)
-        },
-        error: (e) => { }
-      });
+    this.dataService.getBooks().subscribe({
+      next: (response) => {
+        this.books = response.results.lists;
+      },
+      error: (e) => { },
+    });
+  }
+  onSearch(e: any) {
+    this.books.forEach((book: any, idx: number) => {
+
+      this.books[idx].books = book?.books.filter((b: any) => {
+        return b.title.toLowerCase().indexOf(e.target.value.toLowerCase()) !== -1;
+      })
+    });
   }
   redirectToBook(isbn: string) {
     this.router.navigate([`./bookDetail/${isbn}`]);
@@ -30,8 +36,6 @@ export class BooksComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getBooks()
-
+    this.getBooks();
   }
-
 }

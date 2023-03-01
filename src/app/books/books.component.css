@@ -26,6 +26,23 @@ height: 100%;
     color: white;
 
 }
+.search {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .search input[type="text"] {
+    padding-right: 25px;
+  }
+  
+  .search .fa {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #999;
+  }
 .category-title{
     border-bottom: 1px solid #456;
     color: #9ab;

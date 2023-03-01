@@ -1,47 +1,34 @@
-
-.book-container{
-    padding: 32px;
-    color: white;
-}
-.book-header{
-    display:  flex;
-    justify-content: space-evenly;
-    align-items: center;
-
-}
-.book-title{
-    width: 40%;
-    text-align: center;
-}
-.img-container{
+.profile {
     display: flex;
-    flex-direction: column;
     align-items: center;
-}
-.img-container img{
-    cursor: pointer;
-    border-radius: 4px;
-    border: 1px solid white;
-    width: 200px;
-    object-fit:cover;
-    image-rendering:optimizeQuality
-}
-.img-container img:hover{
-    opacity: 0.5;
+    padding: 32px;
+	max-width: 600px;
+	margin: 50px auto;
+	text-align: center;
+    border-radius: 10px;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
-.author{
-    display: inline-block;
-    background: #303840;
-    color: #def;
-    cursor: pointer;
-    border-radius: 3px;
-    box-shadow: inset 0 1px 0 hsl(0deg 0% 100% / 5%);
-    padding: 3px 6px;
-    margin-bottom: 1px;
-    margin-right: 1px;
-    white-space: nowrap;
+.profile img {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	object-fit: cover;
+	object-position: center;
+	margin-bottom: 20px;
 }
+
+.profile h1 {
+	font-size: 32px;
+	margin: 0;
+}
+
+.profile p {
+	font-size: 24px;
+	margin: 10px 0;
+	color: #666;
+}
+
 .book-reviews > h6{
     border-bottom: 1px solid #456;
     color: #9ab;
@@ -54,7 +41,6 @@
     padding:5px ;
     text-transform: uppercase;
 }
-
 .cards-container{
     display: flex;
     flex-wrap: wrap;
@@ -85,8 +71,8 @@
   box-shadow: 1px 1px 5px 6px rgb(0 0 0 / 30%);
 }
 .card-body{
-  padding: 12px;
-  }
+padding: 12px;
+}
 
 .card-actions{
   display: flex;
@@ -111,6 +97,19 @@ button{
   margin: 0;
   padding: 0;
 }
+
+.edit-profile{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.form-container{
+  margin: auto;
+  padding: 32px;
+  width: 50%;
+}
+
 .card-user{
   display: flex;
   align-items: center;

@@ -3,8 +3,9 @@
 include_once "database.php";
 $postdata = file_get_contents("php://input");
 $request = json_decode($postdata);
-$sql =
-  "SELECT u.id, u.name, u.password, u.email, u.avatar, IFNULL(r.rol ,'') as rol FROM users u left join roles r on r.id = u.rol;";
+$id = trim($request->id);
+
+$sql ="SELECT u.id, u.name, u.password, u.email, u.rol, u.avatar FROM users u  where u.id = $id;";
 if ($result = mysqli_query($mysqli, $sql)) {
   $rows = [];
   while ($row = mysqli_fetch_assoc($result)) {

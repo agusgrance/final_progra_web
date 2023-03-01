@@ -16,3 +16,7 @@ div#navbarsExample {
     padding: 3px 30px;
     justify-content: space-between;
 }
+
+.logout{
+    color: white;
+}

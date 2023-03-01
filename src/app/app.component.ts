@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
   loginbtn: boolean;
   logoutbtn: boolean;
   isAdmin: any;
+  myToken: any;
 
   constructor(private dataService: ApiService) {
     dataService.getLoggedInName.subscribe(name => this.changeName(name));
@@ -32,8 +33,7 @@ export class AppComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    console.log(localStorage.getItem('rol'))
-
+    this.myToken = this.dataService.getToken();
   }
   private getAdmin(admin: any) {
 
