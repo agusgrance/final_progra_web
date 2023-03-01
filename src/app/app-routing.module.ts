@@ -9,6 +9,7 @@ import { BooksComponent } from './books/books.component';
 import { DetailComponent } from './detail/detail.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ChatComponent } from './chat/chat.component';
+import { PostComponent } from './post/post.component';
 
 
 const routes: Routes = [
@@ -21,7 +22,9 @@ const routes: Routes = [
     { path: 'bookDetail/:id', component: DetailComponent, canActivate: [AuthguardGuard] },
     { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthguardGuard] },
     { path: 'chat/:id', component: ChatComponent, canActivate: [AuthguardGuard] },
-    { path: 'chat', component: ChatComponent, canActivate: [AuthguardGuard] }
+    { path: 'chat', component: ChatComponent, canActivate: [AuthguardGuard] },
+    { path: 'post/:id', component: PostComponent, canActivate: [AuthguardGuard] }
+
 
 
 

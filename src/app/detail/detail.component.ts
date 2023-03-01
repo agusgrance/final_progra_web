@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
 import { ApiService } from '../api.service';
 
 @Component({
@@ -26,13 +27,18 @@ export class DetailComponent implements OnInit {
   isAdmin: boolean;
   isModalActive = false;
   editCard = 0;
+  shareOptions = false;
+  shareCard: any;
+  users: any
+
   public form: FormGroup;
   public formRating: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private dataService: ApiService
+    private dataService: ApiService,
+    private router: Router
   ) {
     this.angForm = this.fb.group({
       comment: ['', Validators.required],
@@ -162,6 +168,29 @@ export class DetailComponent implements OnInit {
         error: (e) => { }
       });
   }
+  shareClick(post_id: number) {
+    this.shareOptions = !this.shareOptions;
+    this.shareCard = post_id
+  }
+
+  shareToUser(user_id: any, post_id: number) {
+    this.dataService.addMessage(this.userId, user_id, `${environment.url}/post/${post_id}`)
+      .subscribe(() => {
+        this.router.navigate([`/chat/${user_id}`])
+      });
+  }
+  getUsers() {
+    this.dataService.getUsers()
+      .subscribe({
+        next: (response) => {
+          this.users = response;
+          console.log('aca', response)
+
+
+        },
+        error: (e) => { }
+      });
+  }
   patchCommentData(posteoId: string, texto: any) {
     this.dataService.addComentario(posteoId, texto.value.comment)
       .subscribe(() => {
@@ -182,6 +211,7 @@ export class DetailComponent implements OnInit {
     this.getBookDetail();
     this.listarCards();
     this.listarLikes();
+    this.getUsers();
     this.userId = this.dataService.getToken();
   }
 }

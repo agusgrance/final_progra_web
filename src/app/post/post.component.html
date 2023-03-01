@@ -1,0 +1,209 @@
+<div class="post-container error" *ngIf="!post">
+  <h5>
+    Post Not Found
+  </h5>
+</div>
+<div class="post-container" *ngIf="post">
+  <div class="card" style="width: 18rem; height: fit-content;">
+    <div class="card-body">
+      <a class="card-user" href="/profile/{{ post.user_id }}">
+        <img class="card-avatar" [src]="post?.avatar" alt="User Image" />
+        <h5 class="card-title">{{ post.user }}</h5>
+      </a>
+      <h6>Rating: {{ post.rating }}/5</h6>
+
+      <p class="card-text">
+        {{ post.text }}
+      </p>
+      <img src="{{ post.img }}" class="card-img-top" alt="..." />
+    </div>
+    <div class="card-actions">
+      <div class="left">
+        <div class="likes">
+          <button *ngIf="!hasLike(post.id)" (click)="addLike(post.id)">
+            <i class="fa-regular fa-heart"></i>
+          </button>
+          <button *ngIf="hasLike(post.id)" (click)="removeLike(post.id)">
+            <i class="fa-solid fa-heart"></i>
+          </button>
+
+          <p>{{ likesLength(post.id) }}</p>
+        </div>
+        <div class="comments">
+          <button (click)="showCommentModal(post.id)">
+            <i class="fa-regular fa-comment"></i>
+          </button>
+          <p>{{ comentariosLength(post.id) }}</p>
+        </div>
+      </div>
+      <div class="right">
+        <button type="button" (click)="shareClick()">
+          <i class="fa-solid fa-share"></i>
+        </button>
+        <button
+          type="button"
+          *ngIf="post.user_id === userId"
+          (click)="delete(post.id)"
+        >
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+    </div>
+    <button
+      *ngIf="isAdmin"
+      type="button"
+      class="btn btn-danger"
+      (click)="delete(post.id)"
+    >
+      Delete
+    </button>
+
+    <div
+      class="dropdown-menu"
+      aria-labelledby="dropdownMenuButton"
+      *ngIf="shareOptions"
+    >
+      <button
+        class="dropdown-item"
+        (click)="shareToUser(u?.id)"
+        *ngFor="let u of users"
+      >
+        {{ u?.name }}
+      </button>
+    </div>
+    <button
+      *ngIf="isAdmin"
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      (click)="showModal(post.id)"
+    >
+      Editar
+    </button>
+    <!-- Modal -->
+    <div
+      [ngClass]="
+        isModalActive && editCard == post.id ? 'showModal' : 'modal fade'
+      "
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Editar User</h5>
+          </div>
+          <form
+            [formGroup]="angForm"
+            (ngSubmit)="patchData(angForm, post.id)"
+            autocomplete="off"
+          >
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="form-label">Comentario</label>
+                <textarea
+                  formControlName="comment"
+                  name="comment"
+                  type="text"
+                  class="textarea-edit"
+                  id="exampleFormControlInput1"
+                  placeholder="{{ post.text }}"
+                >
+                </textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                (click)="hideModal()"
+              >
+                Close
+              </button>
+              <button type="submit" class="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- End Modal -->
+    <!-- Modal -->
+    <div
+      [ngClass]="
+        isComentModalActive && postId == post.id
+          ? 'showModal commentContainer'
+          : 'modal fade'
+      "
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Comentarios</h5>
+          </div>
+          <form
+            [formGroup]="angForm"
+            (ngSubmit)="patchCommentData(post.id, angForm)"
+            autocomplete="off"
+          >
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="form-label">Comentarios</label>
+                <div *ngFor="let c of getPostComments(post.id)">
+                  <div>
+                    <strong>{{ c.name }}</strong
+                    >: {{ c.texto }}
+                    <button
+                      type="button"
+                      *ngIf="c.user_id === userId"
+                      (click)="removeComentario(c.id)"
+                    >
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+                <textarea
+                  formControlName="comment"
+                  name="comment"
+                  type="text"
+                  class="textarea-edit"
+                  id="exampleFormControlInput1"
+                  placeholder="Escribe un comentario..."
+                  [(ngModel)]="defaultValue"
+                >
+                </textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                (click)="hideCommentModal()"
+              >
+                Close
+              </button>
+              <button
+                [disabled]="!defaultValue.length"
+                type="submit"
+                class="btn btn-primary"
+              >
+                Post
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- End Modal -->
+  </div>
+</div>

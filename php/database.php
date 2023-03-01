@@ -10,6 +10,11 @@ $db_host = 'localhost';
 $db_username = 'root';
 $db_password = '';
 $db_name = 'final_progra_web';
+// $db_host = 'localhost';
+// $db_username = 'id20380202_uces';
+// $db_name = 'id20380202_bookshelf';
+// $db_password = 'r!t%]\Uib?1ZekEI';
+
 $mysqli = new mysqli($db_host, $db_username, $db_password, $db_name);
 
 if ($mysqli->connect_error) {

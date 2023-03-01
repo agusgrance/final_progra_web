@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs';
+import { environment } from 'src/environments/environment.prod';
 import { ApiService } from '../api.service';
 import { Users } from '../users';
 
@@ -28,7 +29,8 @@ export class ProfileComponent implements OnInit {
   isAdmin: boolean;
   userId: any;
   editProfile: boolean = false
-
+  shareOptions = false;
+  shareCard: any;
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private dataService: ApiService, private router: Router) {
     this.user = this.route.snapshot.paramMap.get('id');
     this.myToken = this.dataService.getToken();
@@ -91,7 +93,13 @@ export class ProfileComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.userData = response[0];
-
+        },
+        error: (e) => { }
+      });
+    this.dataService.getUsers()
+      .subscribe({
+        next: (response) => {
+          this.users = response;
         },
         error: (e) => { }
       });
@@ -184,6 +192,16 @@ export class ProfileComponent implements OnInit {
         this.isModalActive = false;
         this.listarCards();
 
+      });
+  }
+  shareClick(post_id: number) {
+    this.shareOptions = !this.shareOptions;
+    this.shareCard = post_id
+  }
+  shareToUser(user_id: any, post_id: number) {
+    this.dataService.addMessage(this.userId, user_id, `${environment.url}/post/${post_id}`)
+      .subscribe(() => {
+        this.router.navigate([`/chat/${user_id}`])
       });
   }
   get email() {

@@ -82,7 +82,9 @@
             </div>
           </div>
           <div class="right">
-            <i class="fa-solid fa-share"></i>
+            <button type="button" (click)="shareClick(c.id)">
+              <i class="fa-solid fa-share"></i>
+            </button>
           </div>
         </div>
         <button
@@ -93,6 +95,19 @@
         >
           Delete
         </button>
+        <div
+          class="dropdown-menu"
+          aria-labelledby="dropdownMenuButton"
+          *ngIf="shareOptions && shareCard == c.id"
+        >
+          <button
+            class="dropdown-item"
+            (click)="shareToUser(u?.id, c.id)"
+            *ngFor="let u of users"
+          >
+            {{ u?.name }}
+          </button>
+        </div>
         <button
           *ngIf="isAdmin"
           type="button"

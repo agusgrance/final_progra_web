@@ -5,6 +5,8 @@ import { ApiService } from '../api.service';
 import { first } from 'rxjs/operators';
 import { FormGroup, FormControl, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment.prod';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -15,6 +17,7 @@ export class DashboardComponent implements OnInit {
   currentFile: any;
   cards: any;
   roles: any;
+  users: any;
   msg: any = 'Subir Imagen';
   angForm: FormGroup;
   isAdmin: boolean;
@@ -29,7 +32,8 @@ export class DashboardComponent implements OnInit {
   books: any = [];
   list_name: any = null;
   booksList: any = []
-
+  shareOptions = false;
+  shareCard: any;
   constructor(private DashboardService: DashboardService, private fb: FormBuilder, private dataService: ApiService, private router: Router, private http: HttpClient) {
     this.angForm = this.fb.group({
       comment: ['', Validators.required],
@@ -49,7 +53,24 @@ export class DashboardComponent implements OnInit {
   selectFile(event: any) {
     this.selectedFiles = event.target.files;
   }
+  shareToUser(user_id: any, post_id: number) {
+    this.dataService.addMessage(this.userId, user_id, `${environment.url}/post/${post_id}`)
+      .subscribe(() => {
+        this.router.navigate([`/chat/${user_id}`])
+      });
+  }
+  getUsers() {
+    this.dataService.getUsers()
+      .subscribe({
+        next: (response) => {
+          this.users = response;
+          console.log('aca', response)
 
+
+        },
+        error: (e) => { }
+      });
+  }
   getBooks() {
     this.dataService.getBooks()
       .subscribe({
@@ -150,6 +171,10 @@ export class DashboardComponent implements OnInit {
   hideModal() {
     this.isModalActive = false;
   }
+  shareClick(post_id: number) {
+    this.shareOptions = !this.shareOptions;
+    this.shareCard = post_id
+  }
   showCommentModal(id: number) {
     this.postId = id;
     this.isComentModalActive = true;
@@ -208,6 +233,7 @@ export class DashboardComponent implements OnInit {
     this.listarLikes();
     this.listarComentarios();
     this.getBooks()
+    this.getUsers()
     this.userId = this.dataService.getToken();
   }
 }

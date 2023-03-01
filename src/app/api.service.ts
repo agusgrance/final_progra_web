@@ -84,6 +84,12 @@ export class ApiService {
         return posteos;
       }));
   }
+  public getSinglePostComments(id: number) {
+    return this.httpClient.put<any>(this.baseUrl + '/selectSinglePost.php', { id })
+      .pipe(map((posteo) => {
+        return posteo;
+      }));
+  }
   public getChat(sender: number, receiver: number) {
     return this.httpClient.put<any>(this.baseUrl + '/selectChat.php', { sender, receiver })
       .pipe(map((posteos) => {
