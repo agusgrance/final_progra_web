@@ -9,11 +9,12 @@ if (isset($postdata) && !empty($postdata)) {
   $name = mysqli_real_escape_string($mysqli, trim($request->name));
   $email = mysqli_real_escape_string($mysqli, trim($request->email));
   $rol = mysqli_real_escape_string($mysqli, (int) $request->rol);
+  $pwd =md5( mysqli_real_escape_string($mysqli, trim($request->password)));
 
   if ($rol == 0) {
-    $sql = "UPDATE users set name = '$name' , email = '$email' where id = $id;";
+    $sql = "UPDATE users set name = '$name' , email = '$email', password = '$pwd' where id = $id;";
   } else {
-    $sql = "UPDATE users set name = '$name' , email = '$email', rol = '$rol' where id = $id;";
+    $sql = "UPDATE users set name = '$name' , email = '$email', rol = '$rol',  password = '$pwd' where id = $id;";
   }
 
   if (mysqli_query($mysqli, $sql)) {
