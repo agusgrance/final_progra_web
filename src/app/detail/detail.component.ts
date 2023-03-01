@@ -81,7 +81,7 @@ export class DetailComponent implements OnInit {
     });
   }
   delete(id: any) {
-    this.dataService.deleteMeme(id)
+    this.dataService.deletePost(id)
       .subscribe(() => {
         this.listarCards();
       });

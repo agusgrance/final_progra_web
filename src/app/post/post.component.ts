@@ -128,7 +128,7 @@ export class PostComponent implements OnInit {
     return comentarios.length
   }
   delete(id: any) {
-    this.dataService.deleteMeme(id)
+    this.dataService.deletePost(id)
       .subscribe(() => {
         this.getPosteos();
       });

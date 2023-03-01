@@ -236,7 +236,7 @@ export class ApiService {
       );
   }
 
-  public memeUpload(
+  public postUpload(
     comment: string,
     img: any,
     date: Date,
@@ -247,7 +247,7 @@ export class ApiService {
 
     let imgPath = `../../assets/uploads/${img}`;
     return this.httpClient
-      .post<any>(this.baseUrl + '/memeUpload.php', {
+      .post<any>(this.baseUrl + '/postUpload.php', {
         user,
         comment,
         imgPath,
@@ -297,9 +297,9 @@ export class ApiService {
         })
       );
   }
-  public deleteMeme(id: number) {
+  public deletePost(id: number) {
     return this.httpClient
-      .post<any>(this.baseUrl + '/deleteMeme.php', { id })
+      .post<any>(this.baseUrl + '/deletePost.php', { id })
       .pipe(
         map((Meme) => {
           return Meme;

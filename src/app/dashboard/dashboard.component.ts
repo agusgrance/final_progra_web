@@ -115,7 +115,7 @@ export class DashboardComponent implements OnInit {
 
 
     });
-    this.dataService.memeUpload(angForm1.value.comment, this.currentFile.name, memeDate, angForm1.value.isbn, angForm1.value.rating)
+    this.dataService.postUpload(angForm1.value.comment, this.currentFile.name, memeDate, angForm1.value.isbn, angForm1.value.rating)
       .pipe(first())
       .subscribe(() => {
         this.listarCards();
@@ -189,7 +189,7 @@ export class DashboardComponent implements OnInit {
     this.isComentModalActive = false;
   }
   delete(id: any) {
-    this.dataService.deleteMeme(id)
+    this.dataService.deletePost(id)
       .subscribe(() => {
         this.listarCards();
       });

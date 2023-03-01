@@ -204,7 +204,7 @@ export class ProfileComponent implements OnInit {
     this.isComentModalActive = true;
   }
   delete(id: any) {
-    this.dataService.deleteMeme(id).subscribe(() => {
+    this.dataService.deletePost(id).subscribe(() => {
       this.listarCards();
     });
   }
