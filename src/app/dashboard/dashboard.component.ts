@@ -121,7 +121,9 @@ export class DashboardComponent implements OnInit {
         this.listarCards();
       });
 
-
+    angForm1.reset();
+    this.currentFile = null
+    this.selectedFiles = null
   }
   listarCards() {
     this.dataService.getCards()

@@ -1,10 +1,11 @@
 
 a.title {
-    color: #ffb016;
+    color: white;
     text-decoration: none;
+    font-weight: 700;
 }
 nav.navbar {
-    background: black!important;
+    background: #012363!important;
     color: white!important;
     border-radius: 0!important;
 }

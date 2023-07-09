@@ -32,6 +32,9 @@ export class LoginComponent implements OnInit {
           alert("User name or password is incorrect")
         });
   }
+  register() {
+    this.router.navigate(['/registration']);
+  }
   get email() { return this.angForm.get('email'); }
   get password() { return this.angForm.get('password'); }
 }

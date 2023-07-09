@@ -1,27 +1,47 @@
-.register-background {
+.register-container {
   display: flex;
-    width: 100%;
-    height: 100vh;
-    background: url(../../assets/background.jpeg);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-   
-  }
-
-  .register-container {
-    width: 50%;
-    height: 50%;
-    border-radius: 1rem;
-    padding: 5rem 0;
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    background: white;
-    box-shadow: 1px 1px 5px 6px rgb(0 0 0 / 30%);
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
 }
-.row{
-  height: 75%;
+h2 {
+  font-weight: 700;
+  text-align: left;
+}
+
+.register-container .left {
+  background-image: url("../../assets/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+.register-container .right {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+}
+.row {
+  height: 100%;
   display: flex;
   align-content: center;
   align-items: center;
+}
+.button-container {
+  padding: 16px 0;
+  display: flex;
+  justify-content: space-between;
+}
+.register {
+  background-color: #c7d7f4;
+  color: #3b64b1;
+  font-weight: 500;
+  border-radius: 16px;
+}
+.login {
+  color: #3b64b1;
+  font-weight: 500;
+  border-radius: 16px;
 }

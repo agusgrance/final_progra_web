@@ -12,11 +12,8 @@
           <h4>{{ b.title }}</h4>
           <h5>{{ bl.author }}</h5>
           <p>{{ bl.description }}</p>
-          <button
-            class="btn btn-success"
-            (click)="redirectToBook(bl.primary_isbn10)"
-          >
-            ver mas
+          <button class="btn" (click)="redirectToBook(bl.primary_isbn10)">
+            Ver mas
           </button>
         </div>
       </div>

@@ -56,3 +56,9 @@ height: 100%;
     text-transform: uppercase;
 }
 
+button{
+  background-color: #c7d7f4;
+  color: #3b64b1;
+  font-weight: 500;
+  border-radius: 16px;
+}

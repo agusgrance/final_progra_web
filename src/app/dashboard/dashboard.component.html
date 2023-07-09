@@ -52,8 +52,6 @@
         #fileUpload
       />
       <div class="file-upload">
-        {{ selectedFiles?.name }}
-
         <button
           mat-mini-fab
           color="primary"
@@ -61,8 +59,13 @@
           (click)="fileUpload.click()"
         >
           <i class="fa-solid fa-image"></i>
+          {{ selectedFiles ? selectedFiles[0]?.name : "Subir Archivo" }}
         </button>
-        <button [disabled]="!isSubmit(angForm, selectedFiles)" type="submit">
+        <button
+          class="btn upload-btn"
+          [disabled]="!isSubmit(angForm, selectedFiles)"
+          type="submit"
+        >
           Subir
         </button>
       </div>

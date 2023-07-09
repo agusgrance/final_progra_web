@@ -19,25 +19,6 @@
       <li class="nav-item">
         <a
           class="nav-link"
-          *ngIf="loginbtn"
-          routerLink="login"
-          routerLinkActive="active"
-          >Login</a
-        >
-      </li>
-
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          *ngIf="loginbtn"
-          routerLink="registration"
-          routerLinkActive="active"
-          >Registration</a
-        >
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
           *ngIf="logoutbtn"
           routerLink="dashboard"
           routerLinkActive="active"
@@ -53,15 +34,7 @@
           >Books</a
         >
       </li>
-      <li class="nav-item">
-        <a
-          class="nav-link"
-          *ngIf="logoutbtn"
-          routerLink="chat"
-          routerLinkActive="active"
-          ><i class="fa-solid fa-comment"></i
-        ></a>
-      </li>
+
       <li>
         <a
           class="nav-link"
@@ -80,6 +53,15 @@
         >
           <i class="fa-solid fa-user"></i> Mi Perfil
         </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          *ngIf="logoutbtn"
+          routerLink="chat"
+          routerLinkActive="active"
+          ><i class="fa-solid fa-comment"></i> Mensajes</a
+        >
       </li>
 
       <li class="nav-item">

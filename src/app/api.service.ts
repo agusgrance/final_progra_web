@@ -3,6 +3,8 @@ import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Users } from './users';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs'
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root',
@@ -11,29 +13,36 @@ export class ApiService {
   redirectUrl: string = '';
   baseUrl: string = 'http://localhost/final_progra_web/php';
   userRol: any;
+  token = "muDwxWkIp-Ul"
   @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
   @Output() getLoggedInAdmin: EventEmitter<any> = new EventEmitter();
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private jwtHelper: JwtHelperService) { }
   public userlogin(username: string, password: string) {
-    alert(username);
-    return this.httpClient
-      .post<any>(this.baseUrl + '/login.php', { username, password })
-      .pipe(
-        map((Users) => {
-          this.setToken(Users[0].id);
-          this.setRol(Users[0].rol);
-          this.userRol = Users[0].rol;
-          this.getLoggedInName.emit(true);
-          if (Users[0].rol == 1) {
-            this.getLoggedInAdmin.emit(true);
-          } else {
-            this.getLoggedInAdmin.emit(false);
-          }
+    return new Observable<any>((observer) => {
+      this.httpClient.post<any>(this.baseUrl + '/login.php', { username, password })
+        .subscribe(
+          (Users) => {
+            const decodedToken = this.jwtHelper.decodeToken(Users.token);
 
-          return Users;
-        })
-      );
+            this.setToken(decodedToken[0].id);
+            this.setRol((decodedToken[0].rol));
+            this.userRol = decodedToken[0].rol;
+            this.getLoggedInName.emit(true);
+            if (decodedToken[0].rol == 1) {
+              this.getLoggedInAdmin.emit(true);
+            } else {
+              this.getLoggedInAdmin.emit(false);
+            }
+
+            observer.next(Users[0]);
+            observer.complete();
+          },
+          (error) => {
+            observer.error(error);
+          }
+        );
+    });
   }
   public getBooks() {
     return this.httpClient

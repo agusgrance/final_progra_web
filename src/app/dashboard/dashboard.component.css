@@ -139,3 +139,15 @@ button{
   left: 90%;
   top: 90%;
 }
+
+.file-upload{
+  display: flex;
+  justify-content: space-around;
+}
+
+.upload-btn{
+  background-color: #c7d7f4;
+  color: #3b64b1;
+  font-weight: 500;
+  border-radius: 16px;
+}

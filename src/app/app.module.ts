@@ -15,6 +15,7 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
 import { ProfileComponent } from './profile/profile.component';
 import { ChatComponent } from './chat/chat.component';
 import { PostComponent } from './post/post.component';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,14 @@ import { PostComponent } from './post/post.component';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgxStarRatingModule
+    NgxStarRatingModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('token');
+        },
+      },
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
