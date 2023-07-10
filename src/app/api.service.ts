@@ -11,7 +11,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class ApiService {
   redirectUrl: string = '';
-  baseUrl: string = 'http://localhost/final_progra_web/php';
+  baseUrl: string = environment.baseUrl;
   userRol: any;
   token = "muDwxWkIp-Ul"
   @Output() getLoggedInName: EventEmitter<any> = new EventEmitter();
@@ -40,6 +40,7 @@ export class ApiService {
           },
           (error) => {
             observer.error(error);
+            console.log(error)
           }
         );
     });

@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
     this.selectedFiles = event.target.files;
   }
   shareToUser(user_id: any, post_id: number) {
-    this.dataService.addMessage(this.userId, user_id, `${environment.url}/post/${post_id}`)
+    this.dataService.addMessage(this.userId, user_id, `${environment.url}post/${post_id}`)
       .subscribe(() => {
         this.router.navigate([`/chat/${user_id}`])
       });

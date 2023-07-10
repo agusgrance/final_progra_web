@@ -47,3 +47,12 @@ h2{
   font-weight: 500;
   border-radius: 16px;
 }
+
+.left{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #f1f2fb;
+  font-weight: 700;
+}
