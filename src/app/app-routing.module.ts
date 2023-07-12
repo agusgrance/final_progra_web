@@ -10,12 +10,13 @@ import { DetailComponent } from './detail/detail.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ChatComponent } from './chat/chat.component';
 import { PostComponent } from './post/post.component';
+import { AdminGuard } from './admin.guard';
 
 
 const routes: Routes = [
     { path: '', component: LoginComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'user', component: UsersComponent },
+    { path: 'user', component: UsersComponent, canActivate: [AdminGuard] },
     { path: 'registration', component: RegisterComponent },
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthguardGuard] },
     { path: 'books', component: BooksComponent, canActivate: [AuthguardGuard] },

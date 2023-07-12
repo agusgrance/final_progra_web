@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
 
   constructor(private dataService: ApiService) {
     dataService.getLoggedInName.subscribe(name => this.changeName(name));
-    dataService.getLoggedInAdmin.subscribe(admin => this.getAdmin(admin));
+    dataService.getLoggedInAdmin.subscribe(admin => this.getAdmin());
 
 
 
@@ -32,19 +32,17 @@ export class AppComponent implements OnInit {
     }
 
   }
+  private getAdmin() {
+
+    let rol = Number(this.dataService.getRol());
+    this.isAdmin = rol == 1
+  }
+
   ngOnInit(): void {
     this.myToken = this.dataService.getToken();
+    this.getAdmin()
   }
-  private getAdmin(admin: any) {
 
-    if (admin) {
-
-      this.isAdmin = true;
-    }
-    else {
-      this.isAdmin = false;
-    }
-  }
   private changeName(name: boolean): void {
     this.logoutbtn = name;
     this.loginbtn = !name;
