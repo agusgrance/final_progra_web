@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
 
   constructor(private dataService: ApiService) {
     dataService.getLoggedInName.subscribe(name => this.changeName(name));
-    dataService.getLoggedInAdmin.subscribe(admin => this.getAdmin());
+    dataService.getLoggedInAdmin.subscribe(() => this.getAdmin());
 
 
 

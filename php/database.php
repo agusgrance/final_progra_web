@@ -1,14 +1,14 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json; charset=UTF-8");
 
 /* $db_host = 'localhost';
 $db_username = 'root';
 $db_password = '';
-$db_name = 'final_progra_web'; */
-
+$db_name = 'final_progra_web';
+ */
 /* $db_host = 'sql304.infinityfree.com';
 $db_username = 'if0_34579916';
 $db_name = 'if0_34579916_bookshelf';

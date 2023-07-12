@@ -19,119 +19,116 @@ export class PostComponent implements OnInit {
   isComentModalActive = false;
   isModalActive = false;
   angForm: FormGroup;
-  defaultValue = ''
+  defaultValue = '';
   isAdmin: boolean;
   shareOptions = false;
   editCard = 0;
 
-
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, private router: Router, private dataService: ApiService) {
+  constructor(
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private router: Router,
+    private dataService: ApiService
+  ) {
     this.angForm = this.fb.group({
       comment: ['', Validators.required],
       rating: ['', Validators.required],
       isbn: ['', Validators.required],
-
     });
     let rol = Number(this.dataService.getRol());
     if (rol == 1) {
       this.isAdmin = true;
-    }
-    else {
+    } else {
       this.isAdmin = false;
     }
-
   }
   getPosteos() {
-    this.dataService.getCards()
-      .subscribe({
-        next: (response) => {
-          this.post = response.find((res: any) => res.id == this.postId);
-          console.log(this.post)
-        },
-        error: (e) => { }
-      });
+    this.dataService.getCards().subscribe({
+      next: (response) => {
+        this.post = response.find((res: any) => res.id == this.postId);
+        console.log(this.post);
+      },
+      error: (e) => { },
+    });
   }
   listarComentarios() {
-    this.dataService.getComentarios()
-      .subscribe({
-        next: (response) => {
-          this.postComments = response;
-        },
-        error: (e) => { }
-      });
+    this.dataService.getComentarios().subscribe({
+      next: (response) => {
+        this.postComments = response;
+      },
+      error: (e) => { },
+    });
   }
 
   getPostComments(postId: string) {
-    console.log('aca', this.postComments)
-    return this.postComments.filter((comentario: any) => comentario?.posteo_id == postId)
+    return this.postComments.filter(
+      (comentario: any) => comentario?.posteo_id == postId
+    );
   }
   removeComentario(comentarioId: any) {
-    this.dataService.removeComentario(comentarioId)
-      .subscribe(() => {
-        this.listarComentarios();
-      });
+    this.dataService.removeComentario(comentarioId).subscribe(() => {
+      this.listarComentarios();
+    });
   }
   getUsers() {
-    this.dataService.getUsers()
-      .subscribe({
-        next: (response) => {
-          this.users = response;
-
-
-        },
-        error: (e) => { }
-      });
+    this.dataService.getUsers().subscribe({
+      next: (response) => {
+        this.users = response;
+      },
+      error: (e) => { },
+    });
   }
   listarLikes() {
-    this.dataService.getLikes()
-      .subscribe({
-        next: (response) => {
-          this.likes = response;
-        },
-        error: (e) => { }
-      });
+    this.dataService.getLikes().subscribe({
+      next: (response) => {
+        this.likes = response;
+      },
+      error: (e) => { },
+    });
   }
   hasLike(postId: any) {
-    return this.likes.find((like: any) => like?.posteo_id == postId && like?.user_id == this.userId)
+    return this.likes.find(
+      (like: any) => like?.posteo_id == postId && like?.user_id == this.userId
+    );
   }
   addLike(postId: any) {
-    this.dataService.addLike(postId)
-      .subscribe(() => {
-        this.getPosteos();
-        this.listarLikes();
-      });
+    this.dataService.addLike(postId).subscribe(() => {
+      this.getPosteos();
+      this.listarLikes();
+    });
   }
   patchData(angForm1: any, idCard: number) {
-    this.dataService.updateCard(idCard, angForm1.value.comment)
+    this.dataService
+      .updateCard(idCard, angForm1.value.comment)
       .subscribe(() => {
         this.isModalActive = false;
         this.getPosteos();
-
       });
   }
   removeLike(postId: any) {
-
-    const like: any = this.likes.find((like: any) => like?.posteo_id == postId && like?.user_id == this.userId)
-    this.dataService.removeLike(like.id)
-      .subscribe(() => {
-        this.getPosteos();
-        this.listarLikes();
-      });
+    const like: any = this.likes.find(
+      (like: any) => like?.posteo_id == postId && like?.user_id == this.userId
+    );
+    this.dataService.removeLike(like.id).subscribe(() => {
+      this.getPosteos();
+      this.listarLikes();
+    });
   }
 
   likesLength(postId: any) {
-    const likes = this.likes.filter((like: any) => like?.posteo_id == postId)
-    return likes.length
+    const likes = this.likes.filter((like: any) => like?.posteo_id == postId);
+    return likes.length;
   }
   comentariosLength(postId: any) {
-    const comentarios = this.postComments.filter((comentario: any) => comentario?.posteo_id == postId)
-    return comentarios.length
+    const comentarios = this.postComments.filter(
+      (comentario: any) => comentario?.posteo_id == postId
+    );
+    return comentarios.length;
   }
   delete(id: any) {
-    this.dataService.deletePost(id)
-      .subscribe(() => {
-        this.getPosteos();
-      });
+    this.dataService.deletePost(id).subscribe(() => {
+      this.getPosteos();
+    });
   }
   showCommentModal(id: number) {
     this.postId = id;
@@ -148,15 +145,17 @@ export class PostComponent implements OnInit {
     this.isModalActive = false;
   }
   shareToUser(user_id: any) {
-    this.dataService.addMessage(this.userId, user_id, `${environment.url}${this.router.url}`)
+    this.dataService
+      .addMessage(this.userId, user_id, `${environment.url}${this.router.url}`)
       .subscribe(() => {
-        this.router.navigate([`/chat/${user_id}`])
+        this.router.navigate([`/chat/${user_id}`]);
       });
   }
   patchCommentData(posteoId: string, texto: any) {
-    this.dataService.addComentario(posteoId, texto.value.comment)
+    this.dataService
+      .addComentario(posteoId, texto.value.comment)
       .subscribe(() => {
-        this.listarComentarios()
+        this.listarComentarios();
         this.defaultValue = '';
       });
   }
@@ -171,6 +170,5 @@ export class PostComponent implements OnInit {
     this.listarLikes();
     this.getUsers();
     this.userId = this.dataService.getToken();
-
   }
 }

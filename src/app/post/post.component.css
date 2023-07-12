@@ -14,17 +14,28 @@
     flex-wrap: wrap;
     justify-content: space-around;
     margin: 25px auto;
+    gap: 12px;
 }
 .commentContainer{
     text-align: left;
    }
-   .card{
-     box-shadow: 1px 1px 5px 6px rgb(0 0 0 / 30%);
-   }
-   .card-body{
-     text-align: left;
-   padding: 12px;
-   }
+   .card {
+    box-shadow: 1px 1px 5px 6px rgb(0 0 0 / 30%);
+  }
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 12px;
+    height: 450px !important;
+    width: 350px!important;
+  }
+  
+  .card img {
+    object-fit: contain;
+    height: 300px;
+    width: 100%;
+  }
    
    .card-actions{
      display: flex;
@@ -49,20 +60,19 @@
      margin: 0;
      padding: 0;
    }
-   .card-user{
+   .card-user {
     display: flex;
     align-items: center;
-    gap: 8px;
-   margin-bottom: 12px;
-   color: black;
-   text-decoration: none;
-  
+    gap: 0 8px;
+    color: black;
+    text-decoration: none;
   }
   
-  .card-user img{
-   width: 30px;
-   border-radius: 50%;
-  }   
+  .card-user img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
 
 
   .dropdown-menu{

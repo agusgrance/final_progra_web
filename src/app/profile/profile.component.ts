@@ -75,19 +75,23 @@ export class ProfileComponent implements OnInit {
     });
   }
   postdata(angForm: any) {
-    let rol = angForm.value.admin ? 1 : 2;
+
     const isCreated: any = this.users.find(
-      (user: Users) =>
-        user.name == angForm.value.name || user.email == angForm.value.email
+      (user: Users) => {
+        if (user.id != Number(this.userId))
+          return user.name == angForm.value.name || user.email == angForm.value.email
+        return false
+      }
+
     );
-    let idRol = this.roles.find((r: any) => r.rol == rol)?.id;
+
+
     if (!isCreated) {
       this.dataService
-        .updateUser(
+        .updateProfile(
           this.userId,
           angForm.value.name,
           angForm.value.email,
-          idRol,
           angForm.value.password,
         )
         .subscribe(() => {
@@ -115,6 +119,9 @@ export class ProfileComponent implements OnInit {
     this.dataService.getProfile(this.user).subscribe({
       next: (response) => {
         this.userData = response[0];
+        this.angForm.setValue({
+          name: response[0]?.name,
+        })
       },
       error: (e) => { },
     });
@@ -246,5 +253,6 @@ export class ProfileComponent implements OnInit {
     this.listarLikes();
     this.listarUser();
     this.userId = this.dataService.getToken();
+
   }
 }

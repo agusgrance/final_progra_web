@@ -22,8 +22,6 @@ export class ChatComponent implements OnInit {
     this.dataService.getUsers()
       .subscribe({
         next: (response) => {
-          console.log('aca', response)
-
           this.users = response;
           this.receiverData = response.find((res: any) => res.id == this.receiver)
 

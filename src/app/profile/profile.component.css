@@ -47,6 +47,7 @@
     justify-content: space-around;
     margin: 25px auto;
     color: #333;
+    gap: 12px;
 }
 .textarea-edit{
   margin: auto;
@@ -67,11 +68,23 @@
 .commentContainer{
  text-align: left;
 }
-.card{
+.card {
   box-shadow: 1px 1px 5px 6px rgb(0 0 0 / 30%);
 }
-.card-body{
-padding: 12px;
+.card-body {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 12px;
+  height: 450px !important;
+  width: 350px!important;
+}
+
+.card img {
+  object-fit: contain;
+  height: 300px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .card-actions{
@@ -110,19 +123,18 @@ button{
   width: 50%;
 }
 
-.card-user{
+.card-user {
   display: flex;
   align-items: center;
-  gap: 8px;
- margin-bottom: 12px;
- color: black;
- text-decoration: none;
-
+  gap: 0 8px;
+  color: black;
+  text-decoration: none;
 }
 
-.card-user img{
- width: 30px;
- border-radius: 50%;
+.card-user img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 
 .dropdown-menu{

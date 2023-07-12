@@ -324,12 +324,24 @@ export class ApiService {
     rol: number = 1,
     password: string
   ) {
-    console.log(password);
     return this.httpClient.put(`${this.baseUrl}/updateUser.php`, {
       id,
       name,
       email,
       rol,
+      password,
+    });
+  }
+  public updateProfile(
+    id: number,
+    name: string,
+    email: string,
+    password: string
+  ) {
+    return this.httpClient.put(`${this.baseUrl}/updateUser.php`, {
+      id,
+      name,
+      email,
       password,
     });
   }

@@ -18,7 +18,7 @@ export class DetailComponent implements OnInit {
   nyrating: any = 0;
   cards: any = [];
   userId: any;
-  myComment: any
+  myComment: any;
   postId = 0;
   likes = [];
   comentarios: any = [];
@@ -29,7 +29,7 @@ export class DetailComponent implements OnInit {
   editCard = 0;
   shareOptions = false;
   shareCard: any;
-  users: any
+  users: any;
 
   public form: FormGroup;
   public formRating: FormGroup;
@@ -44,7 +44,6 @@ export class DetailComponent implements OnInit {
       comment: ['', Validators.required],
       rating: ['', Validators.required],
       isbn: ['', Validators.required],
-
     });
     this.rating = 0;
     this.form = this.fb.group({
@@ -56,8 +55,7 @@ export class DetailComponent implements OnInit {
     let rol = Number(this.dataService.getRol());
     if (rol == 1) {
       this.isAdmin = true;
-    }
-    else {
+    } else {
       this.isAdmin = false;
     }
   }
@@ -65,7 +63,7 @@ export class DetailComponent implements OnInit {
     this.dataService.getBooksByISBN(this.isbn).subscribe({
       next: (response) => {
         this.book = response.items[0];
-        let avgRating = response.items[0]?.volumeInfo.averageRating
+        let avgRating = response.items[0]?.volumeInfo.averageRating;
         this.formRating.setValue({
           publicrating: Math.floor(avgRating),
         });
@@ -81,17 +79,16 @@ export class DetailComponent implements OnInit {
     });
   }
   delete(id: any) {
-    this.dataService.deletePost(id)
-      .subscribe(() => {
-        this.listarCards();
-      });
+    this.dataService.deletePost(id).subscribe(() => {
+      this.listarCards();
+    });
   }
   patchData(angForm1: any, idCard: number) {
-    this.dataService.updateCard(idCard, angForm1.value.comment)
+    this.dataService
+      .updateCard(idCard, angForm1.value.comment)
       .subscribe(() => {
         this.isModalActive = false;
         this.listarCards();
-
       });
   }
 
@@ -99,7 +96,9 @@ export class DetailComponent implements OnInit {
     this.dataService.getCards().subscribe({
       next: (response) => {
         this.cards = response.filter((res: any) => res.isbn == this.isbn);
-        this.myComment = response?.find((res: any) => res.user_id == this.userId && res.isbn == this.isbn)
+        this.myComment = response?.find(
+          (res: any) => res.user_id == this.userId && res.isbn == this.isbn
+        );
         this.form.setValue({
           rating: this.myComment?.rating,
         });
@@ -108,49 +107,49 @@ export class DetailComponent implements OnInit {
     });
   }
   listarLikes() {
-    this.dataService.getLikes()
-      .subscribe({
-        next: (response) => {
-          this.likes = response;
-        },
-        error: (e) => { }
-      });
+    this.dataService.getLikes().subscribe({
+      next: (response) => {
+        this.likes = response;
+      },
+      error: (e) => { },
+    });
   }
   getPostComments(postId: string) {
-
-    return this.comentarios.filter((comentario: any) => comentario?.posteo_id == postId)
+    return this.comentarios.filter(
+      (comentario: any) => comentario?.posteo_id == postId
+    );
   }
   removeComentario(comentarioId: any) {
-    this.dataService.removeComentario(comentarioId)
-      .subscribe(() => {
-        this.listarComentarios();
-      });
+    this.dataService.removeComentario(comentarioId).subscribe(() => {
+      this.listarComentarios();
+    });
   }
   hideCommentModal() {
     this.isComentModalActive = false;
   }
   hasLike(postId: any) {
-    return this.likes.find((like: any) => like?.posteo_id == postId && like?.user_id == this.userId)
+    return this.likes.find(
+      (like: any) => like?.posteo_id == postId && like?.user_id == this.userId
+    );
   }
   addLike(postId: any) {
-    this.dataService.addLike(postId)
-      .subscribe(() => {
-        this.listarCards();
-        this.listarLikes();
-      });
+    this.dataService.addLike(postId).subscribe(() => {
+      this.listarCards();
+      this.listarLikes();
+    });
   }
   removeLike(postId: any) {
-
-    const like: any = this.likes.find((like: any) => like?.posteo_id == postId && like?.user_id == this.userId)
-    this.dataService.removeLike(like.id)
-      .subscribe(() => {
-        this.listarCards();
-        this.listarLikes();
-      });
+    const like: any = this.likes.find(
+      (like: any) => like?.posteo_id == postId && like?.user_id == this.userId
+    );
+    this.dataService.removeLike(like.id).subscribe(() => {
+      this.listarCards();
+      this.listarLikes();
+    });
   }
   likesLength(postId: any) {
-    const likes = this.likes.filter((like: any) => like?.posteo_id == postId)
-    return likes.length
+    const likes = this.likes.filter((like: any) => like?.posteo_id == postId);
+    return likes.length;
   }
   showCommentModal(id: number) {
     this.postId = id;
@@ -160,47 +159,46 @@ export class DetailComponent implements OnInit {
     this.isModalActive = false;
   }
   listarComentarios() {
-    this.dataService.getComentarios()
-      .subscribe({
-        next: (response) => {
-          this.comentarios = response;
-        },
-        error: (e) => { }
-      });
+    this.dataService.getComentarios().subscribe({
+      next: (response) => {
+        this.comentarios = response;
+      },
+      error: (e) => { },
+    });
   }
   shareClick(post_id: number) {
     this.shareOptions = !this.shareOptions;
-    this.shareCard = post_id
+    this.shareCard = post_id;
   }
 
   shareToUser(user_id: any, post_id: number) {
-    this.dataService.addMessage(this.userId, user_id, `${environment.url}post/${post_id}`)
+    this.dataService
+      .addMessage(this.userId, user_id, `${environment.url}post/${post_id}`)
       .subscribe(() => {
-        this.router.navigate([`/chat/${user_id}`])
+        this.router.navigate([`/chat/${user_id}`]);
       });
   }
   getUsers() {
-    this.dataService.getUsers()
-      .subscribe({
-        next: (response) => {
-          this.users = response;
-          console.log('aca', response)
-
-
-        },
-        error: (e) => { }
-      });
+    this.dataService.getUsers().subscribe({
+      next: (response) => {
+        this.users = response;
+      },
+      error: (e) => { },
+    });
   }
   patchCommentData(posteoId: string, texto: any) {
-    this.dataService.addComentario(posteoId, texto.value.comment)
+    this.dataService
+      .addComentario(posteoId, texto.value.comment)
       .subscribe(() => {
-        this.listarComentarios()
+        this.listarComentarios();
         this.defaultValue = '';
       });
   }
   comentariosLength(postId: any) {
-    const comentarios = this.comentarios.filter((comentario: any) => comentario?.posteo_id == postId)
-    return comentarios.length
+    const comentarios = this.comentarios.filter(
+      (comentario: any) => comentario?.posteo_id == postId
+    );
+    return comentarios.length;
   }
   showModal(id: number) {
     this.editCard = id;
